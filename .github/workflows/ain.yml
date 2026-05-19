@@ -1,0 +1,25 @@
+name: Ubuntu RDP
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Setup Ubuntu Desktop
+      run: |
+        sudo apt update
+        sudo apt install xfce4 xfce4-goodies xrdp -y
+
+        echo xfce4-session > ~/.xsession
+
+        sudo systemctl enable xrdp
+        sudo systemctl restart xrdp
+
+        sudo useradd -m rdpuser || true
+        echo "rdpuser:123456" | sudo chpasswd
+
+        curl ifconfig.me
+        sleep infinity
